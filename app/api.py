@@ -13,9 +13,20 @@ class task(BaseModel):
 
 tasks:list[task] = []
 
+# @app.get("/tasks")
+# def viewtask():
+#     return tasks
+
 @app.get("/tasks")
-def viewtask():
-    return tasks
+def viewtasks(completed:bool=None , search:str =None ):
+    if completed is None & search is None:
+      result=task 
+    
+    if completed is not None:
+     result=[task for task in tasks if task.completed==completed] 
+    if search:
+        result=[task for task in tasks if search.lower() in task["title"].lower()]
+    return result  
 
 @app.post("/tasks", status_code=201)
 def addtasks(task:task):
